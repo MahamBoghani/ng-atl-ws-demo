@@ -1,0 +1,36 @@
+.post-header {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+mat-icon {
+  align-self: center;
+  margin-right: 1rem;
+}
+
+.text-container {
+  h4, p {
+    margin: 0;
+  }
+}
+
+.post-text {
+  margin: 0;
+}
+
+.page {
+  display: flex;
+}
+
+.dashboard {
+  border-left: solid 2px black;
+}
+
+.post {
+  //background-color: #FEEEEE;
+  padding: 1rem;
+}
+
+.newsfeed {
+  margin-right: 1rem;
+}

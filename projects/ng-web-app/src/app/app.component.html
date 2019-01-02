@@ -1,0 +1,78 @@
+<header>
+  ngAtlanta Community Hub
+</header>
+
+<img src="../assets/ngATL_logo.svg">
+<div class="page">
+  <div class="newsfeed">
+    <h2>Newsfeed</h2>
+    <mat-card>
+      <form class="posting-form" (ngSubmit)="onSubmit()" [formGroup]="form">
+        <mat-form-field class="name-input" floatLabel="always">
+          <input #nameInput matInput placeholder="Name *" formControlName="name"/>
+        </mat-form-field>
+        <mat-form-field class="post-input" floatLabel="always">
+          <mat-label>Tell us something interesting! *</mat-label>
+          <textarea
+            #postingInput
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2"
+            cdkAutosizeMaxRows="5"
+            formControlName="text">
+          </textarea>
+        </mat-form-field>
+        <div>
+          <button mat-button type="button" (click)="clearPost()">Clear</button>
+          <button mat-button type="submit">Save</button>
+          <button mat-button type="button"
+                  (click)="onRandomAvatarClick()">
+            <mat-icon
+              matTooltip="Surprise me with a random avatar!">
+              supervisor_account
+            </mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-card>
+    <div class="post-container">
+      <mat-card *ngFor="let mess of serverMessages" class="post">
+        <div class="post-header">
+          <mat-icon>{{ mess.icon }}</mat-icon>
+          <div class="text-container">
+            <h4>{{ mess.post.name || 'Lorelai Gilmore' }}</h4>
+          </div>
+        </div>
+        <p class="post-text">{{ mess.post.text || 'Lorem ipsum hello, my name is Lorelai Leigh Gilmore. I am played by Lauren Graham.' }}</p>
+        <div class="reaction-container">
+          <button
+            mat-button
+            (click)="onPostLike(mess.id)">
+            <mat-icon *ngIf="!mess.likes">
+              favorite_border
+            </mat-icon>
+            <mat-icon *ngIf="mess.likes">favorite</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <h2>Dashboard</h2>
+    <mat-card>
+      <mat-card-title>Post Count: {{ postCount }}</mat-card-title>
+    </mat-card>
+    <mat-card>
+      <mat-card-title>Clear Count: {{ clearCount }}</mat-card-title>
+    </mat-card>
+    <mat-card>
+      <mat-card-title>Random Avatar Count: {{ randomAvatarCount }}</mat-card-title>
+    </mat-card>
+    <mat-card>
+      <mat-card-title>Post Like Count: {{ postLikeCount }}</mat-card-title>
+    </mat-card>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

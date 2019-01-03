@@ -17,7 +17,7 @@ interface message {
 
 export let stats = {
   clearCount: 1,
-  postCount: 0,
+  postCount: 1,
   randomAvatarCount: 0,
   postLikeCount: 0
 };

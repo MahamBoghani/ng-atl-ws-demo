@@ -22,15 +22,19 @@ export class AppComponent {
   private socket$: WebSocketSubject<any>;
 
   public serverMessages = [];
-  clearCount = 0;
-  postCount = 0;
-  randomAvatarCount = 0;
-  postLikeCount = 0;
+  stats = {
+    clearCount: { label: 'Clear Post', count: 0 },
+    randomAvatarCount: { label: 'Random Avatar', count: 0 },
+    postLikeCount: { label: 'Like Post', count: 0 },
+    postCount: { label: 'Posts', count: 0 },
+  };
+
   form: FormGroup;
   icon = 'account_circle';
   iconOptions = ['android', 'motorcycle', 'pets', 'sentiment_satisfied_alt', 'insert_emoticon', 'flare', 'filter_vintage', 'wb_sunny', 'ac_unit', 'spa', 'whatshot'];
   id = 0;
   likes = 0;
+  pieData = [];
 
   constructor(private readonly fb: FormBuilder) {
     this.socket$ = webSocket('ws://localhost:8999');
@@ -47,6 +51,11 @@ export class AppComponent {
       );
 
     this.createForm();
+  }
+
+  updatePieData() {
+    this.pieData = Object.keys(this.stats).map(key => {console.log(key); return {name: this.stats[key].label, value: this.stats[key].count };}).filter(stat => stat.name !== 'Posts');
+    console.log(this.pieData);
   }
 
   createForm() {
@@ -80,28 +89,33 @@ export class AppComponent {
   processMessage(message: any) {
     switch (message.type) {
       case 'initial_stats':
-        this.clearCount = message.stats.clearCount;
-        this.randomAvatarCount = message.stats.randomAvatarCount;
+        this.stats.clearCount.count = message.stats.clearCount;
+        this.stats.randomAvatarCount.count = message.stats.randomAvatarCount;
+        this.stats.postCount.count = message.stats.postCount;
+        this.stats.postLikeCount.count = message.stats.postLikeCount;
         this.serverMessages = message.posts;
+        this.updatePieData();
         break;
       case 'updated_clear_stats':
-        this.clearCount = message.stats.clearCount;
+        this.stats.clearCount.count = message.stats.clearCount;
+        this.updatePieData();
         break;
       case 'updated_avatar_stats':
-        this.randomAvatarCount = message.stats.randomAvatarCount;
+        this.stats.randomAvatarCount.count = message.stats.randomAvatarCount;
+        this.updatePieData();
         break;
       case 'updated_post_like_stats':
-        this.postLikeCount = message.stats.postLikeCount;
-        let messIndex = this.serverMessages.findIndex(mess => mess.id === message.likedMessage);
-        ++this.serverMessages[messIndex].likes;
+        this.stats.postLikeCount.count = message.stats.postLikeCount;
+        this.updatePieData();
+        // let messIndex = this.serverMessages.findIndex(mess => mess.id === message.likedMessage);
+        // ++this.serverMessages[messIndex].likes;
         break;
       case 'message_post':
-        this.postCount = message.stats.postCount;
+        this.stats.postCount.count = message.stats.postCount;
         this.serverMessages.push(message.message);
-        console.log('new message: ', message);
         break;
       case 'wip':
-        this.clearCount = 99;
+        this.stats.clearCount.count = 99;
         break;
     }
   }

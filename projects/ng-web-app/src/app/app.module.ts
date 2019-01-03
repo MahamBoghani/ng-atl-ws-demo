@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import {MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatTooltipModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NgxChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

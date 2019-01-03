@@ -7,7 +7,7 @@ const tracker_helper_1 = require("./tracker-helper");
 const app = express();
 exports.stats = {
     clearCount: 1,
-    postCount: 0,
+    postCount: 1,
     randomAvatarCount: 0,
     postLikeCount: 0
 };

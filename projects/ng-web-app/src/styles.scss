@@ -1,1 +1,14 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/theming';
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@include mat-core();
+
+$ws-primary: mat-palette($mat-deep-purple);
+$ws-accent: mat-palette($mat-red);
+$ws-theme: mat-light-theme($ws-primary, $ws-accent);
+
+@include angular-material-theme($ws-theme);
+
+html {
+  font-family: 'Roboto', sans-serif;
+}

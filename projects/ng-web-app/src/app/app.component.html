@@ -1,8 +1,7 @@
 <header>
-  ngAtlanta Community Hub
+  <img src="./../assets/ngATL_logo.svg">RxJS: The Spy Life - Dashboard
 </header>
 
-<!--<img src="../assets/ngATL_logo.svg">-->
 <div class="page">
   <div class="newsfeed">
     <h1>Newsfeed</h1>
@@ -50,7 +49,7 @@
             <h4>{{ mess.post.name || 'Lorelai Gilmore' }}</h4>
           </div>
         </div>
-        <p class="post-text">{{ mess.post.text || 'Lorem ipsum hello, my name is Lorelai Leigh Gilmore. I am played by Lauren Graham.' }}</p>
+        <p class="post-text">{{ mess.post.text || 'I love ngAtl! &hearts;' }}</p>
         <div class="reaction-container">
           <button
             mat-button
@@ -75,26 +74,33 @@
         <ngx-charts-pie-grid
           class="pie-chart"
           [results]="pieData"
-          [scheme]="'forest'"
+          [scheme]="'flame'"
           doughnut="true"
           animations="false"
           label="Count">
         </ngx-charts-pie-grid>
       </mat-card-content>
     </mat-card>
-    <mat-card class="stats-container">
-      <mat-card-header>
-        <mat-card-title>Stats</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <h4>Post Like Count: {{ stats.postLikeCount.count }}</h4>
-        <h4>Clear Count: {{ stats.clearCount.count }}</h4>
-        <h4>Random Avatar Count: {{ stats.randomAvatarCount.count }}</h4>
-      </mat-card-content>
-    </mat-card>
-    <mat-card>
-      <mat-card-title>Post Count: {{ stats.postCount.count }}</mat-card-title>
-    </mat-card>
+    <div class="count-container">
+        <mat-card class="stats-container">
+          <mat-card-header>
+            <mat-card-title>Stats</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <h3>Post Like Count: <span>{{ stats.postLikeCount.count }}</span></h3>
+            <h3>Clear Count: <span>{{ stats.clearCount.count }}</span></h3>
+            <h3>Random Avatar Count: <span>{{ stats.randomAvatarCount.count }}</span></h3>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="stats-container">
+          <mat-card-header>
+            <mat-card-title>Post Count</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <h1>{{ stats.postCount.count }}</h1>
+          </mat-card-content>
+        </mat-card>
+    </div>
   </div>
 </div>
 

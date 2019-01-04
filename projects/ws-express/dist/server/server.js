@@ -6,10 +6,11 @@ const WebSocket = require("ws");
 const tracker_helper_1 = require("./tracker-helper");
 const app = express();
 exports.stats = {
-    clearCount: 1,
-    postCount: 1,
+    clearCount: 0,
+    postCount: 0,
     randomAvatarCount: 0,
-    postLikeCount: 0
+    postLikeCount: 0,
+    donationCount: 0
 };
 exports.messages = [];
 // initialize a simple http server

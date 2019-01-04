@@ -12,14 +12,15 @@ interface message {
   likes: number,
   name: string,
   post: string,
-  date: string
+  date: string,
 }
 
 export let stats = {
-  clearCount: 1,
-  postCount: 1,
+  clearCount: 0,
+  postCount: 0,
   randomAvatarCount: 0,
-  postLikeCount: 0
+  postLikeCount: 0,
+  donationCount: 0
 };
 
 export let messages: message[] = [];

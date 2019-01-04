@@ -2,14 +2,6 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import {WebSocketSubject, webSocket} from 'rxjs/websocket';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-export class Message {
-  constructor(
-    public sender: string,
-    public content: string,
-    public isBroadcast =  false
-  ) {}
-}
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -25,8 +17,9 @@ export class AppComponent {
   stats = {
     clearCount: { label: 'Clear Post', count: 0 },
     randomAvatarCount: { label: 'Random Avatar', count: 0 },
-    postLikeCount: { label: 'Like Post', count: 0 },
+    postLikeCount: { label: 'Post Liked', count: 0 },
     postCount: { label: 'Posts', count: 0 },
+    donationCount: { label: 'Donations', count: 0 }
   };
 
   form: FormGroup;
@@ -34,7 +27,9 @@ export class AppComponent {
   iconOptions = ['android', 'motorcycle', 'pets', 'sentiment_satisfied_alt', 'insert_emoticon', 'flare', 'filter_vintage', 'wb_sunny', 'ac_unit', 'spa', 'whatshot'];
   id = 0;
   likes = 0;
-  pieData = [];
+  chartData = [];
+  postStatMessage = '0 messages';
+  donationStatMessage = '0 good deeds <3';
 
   constructor(private readonly fb: FormBuilder) {
     this.socket$ = webSocket('ws://localhost:8999');
@@ -42,9 +37,7 @@ export class AppComponent {
     this.socket$
       .subscribe(
         (message) => {
-          console.log(`message came through, `, message);
           this.processMessage(message);
-          // this.serverMessages.push(message); this.messageCount = message.messageCount;
           },
         (err) => console.error(err),
         () => console.warn('Completed!')
@@ -53,9 +46,25 @@ export class AppComponent {
     this.createForm();
   }
 
+  updatePostStatMessage() {
+    if (this.stats.postCount.count) {
+      this.postStatMessage = this.stats.postCount.count === 1 ? this.stats.postCount.count + ' message' : this.stats.postCount.count + ' messages';
+    }
+  }
+
+  updateDonationStatMessage() {
+    if (this.stats.donationCount.count) {
+      this.donationStatMessage = this.stats.donationCount.count === 1 ? this.stats.donationCount.count + ' good deed :)' : this.stats.postCount.count + '  good deeds :)';
+    }
+  }
+
   updatePieData() {
-    this.pieData = Object.keys(this.stats).map(key => {console.log(key); return {name: this.stats[key].label, value: this.stats[key].count };}).filter(stat => stat.name !== 'Posts');
-    console.log(this.pieData);
+    this.chartData = Object.keys(this.stats)
+      .map(key => {
+        return {
+          name: this.stats[key].label,
+          value: this.stats[key].count };})
+      .filter(stat => stat.name !== 'Posts');
   }
 
   createForm() {
@@ -67,7 +76,6 @@ export class AppComponent {
 
   onSubmit() {
     if (this.form.dirty) {
-      console.log('icon: ', this.icon);
       let message = {type: 'message_post', data: { id: ++this.id, post: this.form.getRawValue(), icon: this.icon, likes: this.likes } };
       this.socket$.next(message);
       this.form.reset();
@@ -93,8 +101,11 @@ export class AppComponent {
         this.stats.randomAvatarCount.count = message.stats.randomAvatarCount;
         this.stats.postCount.count = message.stats.postCount;
         this.stats.postLikeCount.count = message.stats.postLikeCount;
+        this.stats.donationCount.count = message.stats.donationCount;
         this.serverMessages = message.posts;
         this.updatePieData();
+        this.updatePostStatMessage();
+        this.updateDonationStatMessage();
         break;
       case 'updated_clear_stats':
         this.stats.clearCount.count = message.stats.clearCount;
@@ -107,15 +118,19 @@ export class AppComponent {
       case 'updated_post_like_stats':
         this.stats.postLikeCount.count = message.stats.postLikeCount;
         this.updatePieData();
-        // let messIndex = this.serverMessages.findIndex(mess => mess.id === message.likedMessage);
-        // ++this.serverMessages[messIndex].likes;
         break;
       case 'message_post':
         this.stats.postCount.count = message.stats.postCount;
         this.serverMessages.push(message.message);
+        this.updatePostStatMessage();
         break;
-      case 'wip':
-        this.stats.clearCount.count = 99;
+      case 'donate_stat':
+        this.stats.donationCount.count = message.stats.donateCount;
+        this.updatePieData();
+        this.updateDonationStatMessage();
+        break;
+      default:
+        console.error('Message not processed');
         break;
     }
   }
@@ -124,11 +139,16 @@ export class AppComponent {
     let message = {type: 'random_avatar'};
     this.socket$.next(message);
 
-    this.icon = this.iconOptions[(Math.ceil(Math.random() * this.iconOptions.length))];
+    this.icon = this.iconOptions[(Math.ceil(Math.random() * this.iconOptions.length)) - 1];
   }
 
   onPostLike(id: number) {
     let message = {type: 'post_like', id: id};
+    this.socket$.next(message);
+  }
+
+  onDonate() {
+    let message = {type: 'donate'};
     this.socket$.next(message);
   }
 }

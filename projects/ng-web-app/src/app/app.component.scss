@@ -7,8 +7,17 @@ header {
   color: $contrastColor;
   box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
   padding: 8px;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 30px;
+    height: 30px;
+    margin-left: 1rem;
+  }
 }
 
 .post-header {
@@ -73,7 +82,7 @@ mat-icon {
 
 mat-card {
   margin-bottom: 1rem;
-  padding: 0 0 1rem 0;
+  padding: 0;
 }
 
 .post-container {
@@ -91,7 +100,7 @@ mat-card {
   }
 }
 
-.pie-chart {
+.chart {
   height: 40vh;
   width: 60vh;
   justify-content: center;
@@ -118,10 +127,6 @@ mat-card-header {
     padding: 1rem;
   }
 
-  mat-card-header {
-    margin-bottom: 1rem;
-  }
-
   h4 {
     padding: 0 1rem;
     color: black;
@@ -138,7 +143,7 @@ mat-card-header {
   justify-content: space-between;
 }
 
-.pie-chart-container {
+.chart-container {
   width: 100%;
 
   mat-card-content {
@@ -146,7 +151,22 @@ mat-card-header {
   }
 }
 
-img {
-  width: 100px;
-  height: 100px;
+.donate-button {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  a {
+    text-decoration: none;
+    color: $titleColor;
+  }
+
+  h3 {
+    margin: 0;
+  }
+
+  img {
+    width: 200px;
+    height: 100px;
+  }
 }

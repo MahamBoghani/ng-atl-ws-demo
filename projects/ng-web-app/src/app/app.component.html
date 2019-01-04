@@ -1,6 +1,10 @@
-<header>
-  <img src="./../assets/ngATL_logo.svg">RxJS: The Spy Life - Dashboard
-</header>
+<header><h3>RxJS: The Spy Life - Dashboard</h3></header>
+
+<button
+  class="donate-button"
+  mat-raised-button>
+  <a (click)="onDonate()" href="https://ng-atl.org/#/foundation" target="_blank"><h3>Donate to </h3><img src="./../assets/ngATL_logo.svg"></a>
+</button>
 
 <div class="page">
   <div class="newsfeed">
@@ -20,7 +24,6 @@
               #postingInput
               matInput
               cdkTextareaAutosize
-              cdkAutosizeMinRows="2"
               cdkAutosizeMaxRows="5"
               formControlName="text">
           </textarea>
@@ -57,7 +60,6 @@
             <mat-icon *ngIf="!mess.likes">
               favorite_border
             </mat-icon>
-            <!--<mat-icon *ngIf="mess.likes">favorite</mat-icon>-->
           </button>
         </div>
       </mat-card>
@@ -66,19 +68,38 @@
 
   <div class="dashboard">
     <h1>Dashboard</h1>
-    <mat-card class="pie-chart-container">
+    <mat-card class="chart-container">
       <mat-card-header>
-        <mat-card-title>Features</mat-card-title>
+        <mat-card-title>Feature Interaction Pie Chart Visual</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <ngx-charts-pie-grid
-          class="pie-chart"
-          [results]="pieData"
+          class="chart"
+          [results]="chartData"
           [scheme]="'flame'"
-          doughnut="true"
-          animations="false"
+          [animations]="false"
           label="Count">
         </ngx-charts-pie-grid>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="chart-container">
+      <mat-card-header>
+        <mat-card-title>Feature Interaction Bar Chart Visual</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ngx-charts-bar-horizontal
+          class="chart"
+          [results]="chartData"
+          [scheme]="'flame'"
+          [animations]="false"
+          [xAxis]="true"
+          [yAxis]="true"
+          [yAxisLabel]="'Features'"
+          [showYAxisLabel]="true"
+          [xAxisLabel]="'Interactions'"
+          [showXAxisLabel]="true"
+          label="Count">
+        </ngx-charts-bar-horizontal>
       </mat-card-content>
     </mat-card>
     <div class="count-container">
@@ -90,16 +111,27 @@
             <h3>Post Like Count: <span>{{ stats.postLikeCount.count }}</span></h3>
             <h3>Clear Count: <span>{{ stats.clearCount.count }}</span></h3>
             <h3>Random Avatar Count: <span>{{ stats.randomAvatarCount.count }}</span></h3>
+            <h3>Donation Count: <span>{{ stats.donationCount.count }}</span></h3>
           </mat-card-content>
         </mat-card>
-        <mat-card class="stats-container">
-          <mat-card-header>
-            <mat-card-title>Post Count</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <h1>{{ stats.postCount.count }}</h1>
-          </mat-card-content>
-        </mat-card>
+        <div class="stats-container">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Post Count</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <h1><mat-icon>comment</mat-icon>{{ postStatMessage }}</h1>
+            </mat-card-content>
+          </mat-card>
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Donation Count</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <h1><mat-icon>accessibility_new</mat-icon>{{ donationStatMessage }}</h1>
+            </mat-card-content>
+          </mat-card>
+        </div>
     </div>
   </div>
 </div>

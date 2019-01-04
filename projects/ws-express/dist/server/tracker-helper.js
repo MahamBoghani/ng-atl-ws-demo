@@ -21,10 +21,11 @@ class temp {
                 break;
             case 'post_like':
                 ++server_1.stats.postLikeCount;
-                console.log('post like: ', server_1.messages);
-                // let messIndex = messages.findIndex(mess => mess.id === message.id);
-                // messages[messIndex].likes++;
                 reply = { type: 'updated_post_like_stats', stats: { postLikeCount: server_1.stats.postLikeCount }, likedMessage: {} };
+                break;
+            case 'donate':
+                ++server_1.stats.donationCount;
+                reply = { type: 'donate_stat', stats: { donateCount: server_1.stats.donationCount } };
                 break;
             default:
                 reply = { type: 'wip' };

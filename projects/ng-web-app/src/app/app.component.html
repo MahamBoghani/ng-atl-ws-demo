@@ -45,12 +45,12 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card>
+    <mat-card *ngIf="serverMessages.length">
       <mat-card-header>
         <mat-card-title>Posts</mat-card-title>
       </mat-card-header>
     </mat-card>
-    <div class="post-container" [class.active-newsfeed]="serverMessages.length">
+    <div *ngIf="serverMessages.length" class="post-container" [class.active-newsfeed]="serverMessages.length > 7" [class.active-newsfeed-mobile]="serverMessages.length > 2">
       <mat-card *ngFor="let mess of serverMessages" class="post">
         <div class="post-header">
           <mat-icon>{{ mess.icon }}</mat-icon>

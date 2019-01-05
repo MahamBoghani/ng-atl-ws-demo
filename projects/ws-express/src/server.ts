@@ -56,5 +56,5 @@ start();
 // start our server
 server.listen(process.env.PORT || 8999, () => {
   const { port } = server.address() as AddressInfo;
-  console.log(`Server started on port :)`, port);
+  console.log(`Server started on port :) `, port);
 });

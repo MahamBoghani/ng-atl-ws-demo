@@ -32,18 +32,32 @@ export class AppComponent {
   donationStatMessage = '0 good deeds <3';
 
   constructor(private readonly fb: FormBuilder) {
-    this.socket$ = webSocket('ws://localhost:8999');
+    this.socket$ = webSocket('wss://ws-express.herokuapp.com/');
 
     this.socket$
       .subscribe(
         (message) => {
           this.processMessage(message);
           },
-        (err) => console.error(err),
+        (err) => {console.error('closed and retrying!', err); this.retry();},
         () => console.warn('Completed!')
       );
 
     this.createForm();
+  }
+
+  retry() {
+    this.socket$ = webSocket('wss://ws-express.herokuapp.com/');
+
+    this.socket$
+      .subscribe(
+        (message) => {
+          this.processMessage(message);
+        },
+        // (err) => {console.error('closed and retrying!', err); this.retry();},
+        () => console.warn('Completed!')
+      );
+
   }
 
   updatePostStatMessage() {
@@ -54,7 +68,7 @@ export class AppComponent {
 
   updateDonationStatMessage() {
     if (this.stats.donationCount.count) {
-      this.donationStatMessage = this.stats.donationCount.count === 1 ? this.stats.donationCount.count + ' good deed :)' : this.stats.postCount.count + '  good deeds :)';
+      this.donationStatMessage = this.stats.donationCount.count === 1 ? this.stats.donationCount.count + ' good deed :)' : this.stats.donationCount.count + '  good deeds :)';
     }
   }
 

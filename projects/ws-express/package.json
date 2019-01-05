@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile": "tsc",
+    "build-ts": "tsc",
     "serve": "node ./dist/server/server.js",
-    "update": "npm run compile && npm run serve",
+    "start": "npm run serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Maham Boghani",

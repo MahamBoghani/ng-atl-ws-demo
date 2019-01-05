@@ -15,20 +15,27 @@ exports.stats = {
 exports.messages = [];
 // initialize a simple http server
 const server = http.createServer(app);
-// initialize the WebSocket server instance
-const wss = new WebSocket.Server({ server });
-wss.on('connection', (ws) => {
-    ws.send(JSON.stringify({ type: 'initial_stats', stats: exports.stats, posts: exports.messages }));
-    // connection is up, let's add a simple event
-    ws.on('message', (message) => {
-        let reply = tracker_helper_1.temp.classifyTracker(message);
-        console.log(`client count: ${wss.clients.size}`);
-        wss.clients
-            .forEach(client => {
-            client.send(JSON.stringify(reply));
+function start() {
+    // initialize the WebSocket server instance
+    const wss = new WebSocket.Server({ server });
+    wss.on('connection', (ws) => {
+        ws.send(JSON.stringify({ type: 'initial_stats', stats: exports.stats, posts: exports.messages }));
+        // connection is up, let's add a simple event
+        ws.on('message', (message) => {
+            let reply = tracker_helper_1.temp.classifyTracker(message);
+            console.log(`client count: ${wss.clients.size}`);
+            wss.clients
+                .forEach(client => {
+                client.send(JSON.stringify(reply));
+            });
+        });
+        ws.on('close', (ws) => {
+            if (!ws || ws.readyState === WebSocket.CLOSED)
+                start();
         });
     });
-});
+}
+start();
 // start our server
 server.listen(process.env.PORT || 8999, () => {
     const { port } = server.address();

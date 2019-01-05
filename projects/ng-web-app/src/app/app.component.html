@@ -9,7 +9,7 @@
 <div class="page">
   <div class="newsfeed">
     <h1>Newsfeed</h1>
-    <mat-card>
+    <mat-card class="form-container">
       <mat-card-header>
         <mat-card-title>Create Post</mat-card-title>
       </mat-card-header>
@@ -44,7 +44,13 @@
         </form>
       </mat-card-content>
     </mat-card>
-    <div class="post-container">
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Posts</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+    <div class="post-container" [class.active-newsfeed]="serverMessages.length">
       <mat-card *ngFor="let mess of serverMessages" class="post">
         <div class="post-header">
           <mat-icon>{{ mess.icon }}</mat-icon>

@@ -50,7 +50,6 @@ mat-icon {
 .dashboard {
   width: 60%;
   color: $titleColor;
-  padding-left: 1rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -88,6 +87,12 @@ mat-card {
 .post-container {
   display: flex;
   flex-direction: column-reverse;
+}
+
+
+.active-newsfeed {
+  height: 700px;
+  overflow-y: scroll;
 }
 
 .reaction-container {
@@ -172,8 +177,11 @@ mat-card-header {
 }
 
 @media only screen and (max-width: 500px) {
+  .page {
+    flex-direction: column;
+  }
   .dashboard {
-    display: none;
+    width: 100%;
   }
   .newsfeed {
     width: 100%;
@@ -184,4 +192,20 @@ mat-card-header {
       height: 30px;
     }
   }
+  .active-newsfeed {
+    height: 300px;
+  }
+  .chart {
+    height: 100vh;
+    width: 60vh;
+    justify-content: center;
+  }
+  .post-input {
+    width: 12rem;
+  }
+}
+
+.form-container {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
 }

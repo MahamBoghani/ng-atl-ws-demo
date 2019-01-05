@@ -39,7 +39,7 @@ export class AppComponent {
         (message) => {
           this.processMessage(message);
           },
-        (err) => {console.error('closed and retrying!', err); this.retry();},
+        () => this.retry(),
         () => console.warn('Completed!')
       );
 
@@ -54,7 +54,7 @@ export class AppComponent {
         (message) => {
           this.processMessage(message);
         },
-        // (err) => {console.error('closed and retrying!', err); this.retry();},
+        () => this.retry(),
         () => console.warn('Completed!')
       );
 
@@ -94,6 +94,7 @@ export class AppComponent {
       this.socket$.next(message);
       this.form.reset();
       this.icon = 'account_circle';
+      this.form.markAsPristine();
     }
   }
 
